@@ -19,13 +19,14 @@ pip install nuscenes-devkit
 ```
 
 Put [NuImages-RCNN-FPN.yaml](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/NuImages-RCNN-FPN.yaml) Config file in folder ```/detectron2/configs```
+
 Put [nuimages_loader.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_loader.py) dataset transformer in folder ```/detectron2/detectron2/data/datasets```
 
 Put [nuimages_inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_inference.py), [visual&inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/visual%26inference.py), [visualize_nuImages.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/visualize_nuImages.py) in root folder of detectron2
 ## nuImages Data loader
 **1. Convert nuImages dataset to CRUW dataset format**
 
-Use the nuScence build in devkit to load nuImages dataset and convert the categories use a mapping function, read all the relational data and transfer the metadata as a dict. For the segmantation part, the orignal segmantation format is a single map with category IDs for each instance, convert the segmantation to each map per object, which can help with futher fusion in objects.And also, in nuImages, the cyclist are not seperated into different kind of pedestrain, but we want to merge the cyclist and the vehicle.cycle, so I read the attribution annotation and the bicycle with rider will be train as different category.
+Use the nuScence build in devkit to load nuImages dataset and convert the categories use a mapping function, read all the relational data and transfer the metadata as a dict. For the segmantation part, the orignal segmantation format is a single map with category IDs for each instance, convert the segmantation to each map per object, which can help with futher fusion in objects.And also, in nuImages, the cyclist are not seperated into different kind of pedestrain, but we want to merge the cyclist and the vehicle.cycle, so read the attribution annotation and the bicycle with rider will be train as different category.
 
 The categories mapping from nuImages to CRUW is:
 nuImages Category | CRUW Category
@@ -74,7 +75,7 @@ MetadataCatalog.get(dataset).evaluator_type = "coco"
 
 **3.Train nuImages use Mask R-CNN**
 
-Train on nuImages train-1.0 dataset
+Train on nuImages v1.0-train dataset
 First, change dataset and version in [nuimages_loader.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_loader.py) to
 ```
 dataset = 'nuimages_train'
@@ -89,6 +90,7 @@ To train the dataset on Detectron2 useing ResNet FPN backbone.
 ```
 
 The detail of this archetecuture can be found in [NuImages-RCNN-FPN.yaml](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/NuImages-RCNN-FPN.yaml)
+
 Train from last model (in this case is model_final.pth)
 ```
 ./detectron2/tools/train_net.py --num-gpus 1  --config-file ../configs/NuImages-RCNN-FPN.yaml MODEL.WEIGHTS ~/detectron2/tools/output-1/model_final.pth SOLVER.IMS_PER_BATCH 2 SOLVER.BASE_LR 0.0025
@@ -108,6 +110,7 @@ Then run eval-only command and set model weights to the last checkpoint (in this
 
 ## Inference tools
 There are three inference tools to visulize result
+
 **1. Visulize nuImages groud truth**
 
 run [visualize_nuImages.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/visualize_nuImages.py)

@@ -80,7 +80,8 @@ Train from last model (in this case is model_final.pth)
 ./detectron2/tools/train_net.py --num-gpus 1  --config-file ../configs/NuImages-RCNN-FPN.yaml MODEL.WEIGHTS ~/detectron2/tools/output-1/model_final.pth SOLVER.IMS_PER_BATCH 2 SOLVER.BASE_LR 0.0025
 ```
 
-**4.Evaluation on nuImages val dataset
+**4.Evaluation on nuImages val dataset**
+
 First, change dataset and version in [nuimages.py](https://github.com/TedSongjh/CSE599-fianl-project/blob/main/nuimages.py) to
 ```
 dataset = 'nuimages_val'

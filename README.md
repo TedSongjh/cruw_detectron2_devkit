@@ -24,6 +24,7 @@ Put [nuimages_loader.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blo
 Put [nuimages_inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_inference.py), [visual&inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/visual%26inference.py), [visualize_nuImages.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/visualize_nuImages.py) in root folder of detectron2
 ## nuImages Data loader
 **1. Convert nuImages dataset to CRUW dataset format**
+
 I use the nuScence build in devkit to load nuImages dataset and convert the categories use a mapping function, read all the relational data and transfer the metadata as a dict. For the segmantation part, the orignal segmantation format is a single map with category IDs for each instance, I convert the segmantation to each map per object, which can help me with futher fusion in objects.
 
 And also, in nuImages, the cyclist are not seperated into different kind of pedestrain, but we want to merge the cyclist and the vehicle.cycle, so I read the attribution annotation and the bicycle with rider will be train as different category. After the training, I can relate the human.pedestrian with the vehicle.cycle.withrider by identify the corss part in bounding box and segmantation, and merge these bounding box and segmantation together. Same idea will be implement on vehicle.trailer and vehicle.car. But we don't have enough trailer object to train for now, this part will be added in future.
@@ -74,6 +75,7 @@ MetadataCatalog.get(dataset).evaluator_type = "coco"
 
 
 **3.Train nuImages use Mask R-CNN**
+
 Train on nuImages train-1.0 dataset
 First, change dataset and version in [nuimages_loader.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_loader.py) to
 ```

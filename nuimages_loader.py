@@ -13,6 +13,10 @@ from detectron2.utils.file_io import PathManager
 
 from .. import DatasetCatalog, MetadataCatalog
 
+dataset = 'nuimages_train'
+version = 'v1.0-train'
+root_path = '/mnt/disk1/nuImages_test/'
+
 categories = ['human.pedestrian',
               'vehicle.car',
               'vehicle.bus',
@@ -69,6 +73,7 @@ def load_nuimages_dicts(path, version, categories = categories):
 
     for idx in tqdm(range(0, len(nuim.sample))):
         data = nuim.sample_data[idx]
+        # if only want CAM_FRONT, uncomment this 2 line
         # if not (data['filename'][:17] =="sweeps/CAM_FRONT/" or data['filename'][:18] =="samples/CAM_FRONT/"):
         #     continue
         record = {}
@@ -110,46 +115,9 @@ def load_nuimages_dicts(path, version, categories = categories):
         record["annotations"] = objs
         if len(objs) > 0:
             dataset_dicts.append(record)
-
-
     return dataset_dicts
 
 
-# categories = ['human.pedestrian.adult',
-#               'human.pedestrian.child',
-#               'human.pedestrian.stroller',
-#               'human.pedestrian.personal_mobility',
-#               'human.pedestrian.police_officer',
-#               'human.pedestrian.construction_worker',
-#               'vehicle.car',
-#               'vehicle.bus.bendy',
-#               'vehicle.bus.rigid',
-#               'vehicle.truck',
-#               'vehicle.trailer']
-#
-# dataset = 'nuimages_test'
-# version = 'v1.0-test'
-#
-# get_dicts = lambda p = root_path, c = categories: load_nuimages_dicts(path=p,version = version, categories=c)
-# DatasetCatalog.register(dataset,get_dicts)
-# MetadataCatalog.get(dataset).thing_classes = categories
-# MetadataCatalog.get(dataset).evaluator_type = "coco"
-#
-# dataset = 'nuimages_train'
-# version = 'v1.0-train'
-# get_dicts = lambda p = root_path, c = categories: load_nuimages_dicts(path=p,version = version, categories=c)
-# DatasetCatalog.register(dataset,get_dicts)
-# MetadataCatalog.get(dataset).thing_classes = categories
-# MetadataCatalog.get(dataset).evaluator_type = "coco"
-#
-
-
-
-dataset = 'nuimages_val'
-version = 'v1.0-val'
-dataset = 'nuimages_train'
-version = 'v1.0-train'
-root_path = '/mnt/disk1/nuImages_test/'
 
 get_dicts = lambda p = root_path, c = categories: load_nuimages_dicts(path=p,version = version, categories=c)
 DatasetCatalog.register(dataset,get_dicts)

@@ -67,16 +67,13 @@ categories = ['human.pedestrian',
               'vehicle.cycle',
               'vehicle.cycle.with_rider']
 dataset = 'nuimages_mini'
-# version = 'v1.0-train'
 version = 'v1.0-mini'
 get_dicts = lambda p=root_path, c=categories: load_nuimages_dicts(path=p, version=version, categories=c)
-#DatasetCatalog.register(dataset, get_dicts)
+DatasetCatalog.register(dataset, get_dicts)
 MetadataCatalog.get(dataset).thing_classes = categories
 MetadataCatalog.get(dataset).evaluator_type = "coco"
 
 dataset_dicts = load_nuimages_dicts(root_path, version, categories)
-# print(MetadataCatalog.get(dataset))
-# print(dataset_dicts)
 
 def transform_instance_to_dict(instances):
     scores = instances.scores.numpy()
@@ -120,8 +117,7 @@ def transform_instance_to_dict(instances):
 i = 0
 for d in dataset_dicts:
     img = cv2.imread(d["file_name"])
-    #print(d)
-    # print(MetadataCatalog.get(dataset))
+
     if len(d['annotations']) == 0:
         continue
     visualizer = Visualizer(img[:, :, ::-1], MetadataCatalog.get(dataset), scale=1.2)
@@ -169,7 +165,6 @@ for d in dataset_dicts:
     # cv2.waitKey(0)
     # cv2.imshow("Test Result", infer_out.get_image()[:, :, ::-1])
 
-    #
 
     Hori = np.concatenate((gt_img,infer_img), axis=0)
     i+=1

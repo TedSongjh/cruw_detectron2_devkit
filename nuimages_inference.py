@@ -29,8 +29,6 @@ nuimage_data_root = '/mnt/disk1/nuImages/mini/samples/'
 nuimage_infer_root = '/mnt/disk1/nuImages_test/nuimage_mini_result'
 model_path = '/home/jinghui/detectron2/tools/output'
 model_name = 'nuimage_coco'
-# nuimage_data_root = cruw_data_root
-# nuimage_infer_root = os.path.join(nuimage_infer_root,seq)
 dataset = 'nuimages_mini'
 
 
@@ -75,15 +73,6 @@ def visualize(im, instance, save_path=None):
         cv2.waitKey(0)
     else:
         cv2.imwrite(save_path, out.get_image()[:, :, ::-1])
-
-# def convert_anno_to_nuimages(pred_classes):
-#     for i in range(len(pred_classes)):
-#         pred_class = full_categories[pred_classes[i]]
-#         if pred_class in categories:
-#             pred_classes[i] = categories.index(pred_class)
-#         else:
-#             pred_classes[i] = 11
-#     return pred_classes
 
 
 
@@ -200,12 +189,10 @@ if __name__ == '__main__':
 
     cfg = get_cfg()
     # add project-specific config (e.g., TensorMask) here if you're not running a model in detectron2's core library
-    #cfg.merge_from_file(model_zoo.get_config_file("NuImages-RCNN-FPN.yaml"))
-    cfg.merge_from_file(model_zoo.get_config_file("COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml"))
+    cfg.merge_from_file(model_zoo.get_config_file("NuImages-RCNN-FPN.yaml"))
     cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5  # set threshold for this model
-    # Find a model from detectron2's model zoo. You can use the https://dl.fbaipublicfiles... url as well
+    # Use current final model
     cfg.MODEL.WEIGHTS =os.path.join(model_path, "model_final.pth")
-    #cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml")
     predictor = DefaultPredictor(cfg)
 
     seq_names = sorted(os.listdir(nuimage_data_root))

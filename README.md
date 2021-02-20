@@ -3,7 +3,7 @@ Object detection kit base on detectron2 to provide result in CRUW dataset format
 
 
 ## Introduction
-This project is aiming for provide ground truth for [CRUW dataset](https://www.cruwdataset.org/introduction) built by Information Processing Lab @UWECE.This devkit  provide image base Mask RCNN groud truth result as benchmark in cruw format. The object detection base on Detectron2 is the main part for this project. And use transformed [nuImages](https://www.nuscenes.org/nuimages) dataset to pretrain the benchmark model.
+This project is aiming for provide ground truth for [CRUW dataset](https://www.cruwdataset.org/introduction) built by Information Processing Lab @UWECE.This devkit  provide image base Mask RCNN groud truth result as benchmark in cruw format. The object detection base on [Detectron2](https://github.com/facebookresearch/detectron2) is the main part for this project. And use transformed [nuImages](https://www.nuscenes.org/nuimages) dataset to pretrain the benchmark model.
 
 ## Installation
 
@@ -25,9 +25,7 @@ Put [nuimages_inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/
 ## nuImages Data loader
 **1. Convert nuImages dataset to CRUW dataset format**
 
-I use the nuScence build in devkit to load nuImages dataset and convert the categories use a mapping function, read all the relational data and transfer the metadata as a dict. For the segmantation part, the orignal segmantation format is a single map with category IDs for each instance, I convert the segmantation to each map per object, which can help me with futher fusion in objects.
-
-And also, in nuImages, the cyclist are not seperated into different kind of pedestrain, but we want to merge the cyclist and the vehicle.cycle, so I read the attribution annotation and the bicycle with rider will be train as different category. After the training, I can relate the human.pedestrian with the vehicle.cycle.withrider by identify the corss part in bounding box and segmantation, and merge these bounding box and segmantation together. Same idea will be implement on vehicle.trailer and vehicle.car. But we don't have enough trailer object to train for now, this part will be added in future.
+Use the nuScence build in devkit to load nuImages dataset and convert the categories use a mapping function, read all the relational data and transfer the metadata as a dict. For the segmantation part, the orignal segmantation format is a single map with category IDs for each instance, convert the segmantation to each map per object, which can help with futher fusion in objects.And also, in nuImages, the cyclist are not seperated into different kind of pedestrain, but we want to merge the cyclist and the vehicle.cycle, so I read the attribution annotation and the bicycle with rider will be train as different category.
 
 The categories mapping from nuImages to CRUW is:
 nuImages Category | CRUW Category

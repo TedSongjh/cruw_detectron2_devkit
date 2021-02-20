@@ -18,6 +18,10 @@ To use nuScenes devkit:
 pip install nuscenes-devkit
 ```
 
+Put [NuImages-RCNN-FPN.yaml](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/NuImages-RCNN-FPN.yaml) Config file in folder ```/detectron2/configs```
+Put [nuimages_loader.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_loader.py) dataset transformer in folder ```/detectron2/detectron2/data/datasets```
+
+Put [nuimages_inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_inference.py), [visual&inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/visual%26inference.py), [visualize_nuImages.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/visualize_nuImages.py) in root folder of detectron2
 ## nuImages Data loader
 **1. Convert nuImages dataset to CRUW dataset format**
 I use the nuScence build in devkit to load nuImages dataset and convert the categories use a mapping function, read all the relational data and transfer the metadata as a dict. For the segmantation part, the orignal segmantation format is a single map with category IDs for each instance, I convert the segmantation to each map per object, which can help me with futher fusion in objects.
@@ -57,11 +61,21 @@ flat.ego	|	-
 
 **2. Use Custom datasets on Detectron2**
 
-After made the dataset reader, register the nuimages_test and nuimages_train dataset and metadata in [builtin.py](https://github.com/TedSongjh/CSE599-fianl-project/blob/main/builtin.py). Because the nuImages don't have built in evaluator. I choose to use COCO InstanceSegmentation evaluator in the following part, so I load these two dataset by COCO format. So I have to convert the CRUW dataset format to COCO format, by changing object information schema, segmantation map to bitmask and bounding box format. Also, because CRUW dataset sensor setup only have dual camera facing front, I filter out all the samples facing other direction in nuImages. This part is also in [nuimages.py](https://github.com/TedSongjh/CSE599-fianl-project/blob/main/nuimages.py).The instances detail information is in the chart below.
+After made the dataset reader, register the nuimages_test and nuimages_train dataset and metadata. use COCO InstanceSegmentation evaluator in the following part, and convert the nuImages format to CRUW dataset format, by changing object information schema, segmantation map to bitmask and bounding box format. This part is in [nuimages_loader.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_loader.py). Change dataset and version name to register other dataset. 
+```
+dataset = 'nuimages_train'
+version = 'v1.0-train'
+root_path = '/mnt/disk1/nuImages_test/'
+get_dicts = lambda p = root_path, c = categories: load_nuimages_dicts(path=p,version = version, categories=c)
+DatasetCatalog.register(dataset,get_dicts)
+MetadataCatalog.get(dataset).thing_classes = categories
+MetadataCatalog.get(dataset).evaluator_type = "coco"
+```
+
 
 **3.Train nuImages use Mask R-CNN**
 Train on nuImages train-1.0 dataset
-First, change dataset and version in [nuimages.py](https://github.com/TedSongjh/CSE599-fianl-project/blob/main/nuimages.py) to
+First, change dataset and version in [nuimages_loader.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_loader.py) to
 ```
 dataset = 'nuimages_train'
 version = 'v1.0-train'
@@ -74,7 +88,7 @@ To train the dataset on Detectron2 useing ResNet FPN backbone.
 ./detectron2/tools/train_net.py   --config-file ../configs/NuImages-RCNN-FPN.yaml   --num-gpus 1 SOLVER.IMS_PER_BATCH 2 SOLVER.BASE_LR 0.0025
 ```
 
-The detail of this archetecuture can be found in [NuImages-RCNN-FPN.yaml](https://github.com/TedSongjh/CSE599-fianl-project/blob/main/configs/NuImages-RCNN-FPN.yaml)
+The detail of this archetecuture can be found in [NuImages-RCNN-FPN.yaml](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/NuImages-RCNN-FPN.yaml)
 Train from last model (in this case is model_final.pth)
 ```
 ./detectron2/tools/train_net.py --num-gpus 1  --config-file ../configs/NuImages-RCNN-FPN.yaml MODEL.WEIGHTS ~/detectron2/tools/output-1/model_final.pth SOLVER.IMS_PER_BATCH 2 SOLVER.BASE_LR 0.0025
@@ -82,7 +96,7 @@ Train from last model (in this case is model_final.pth)
 
 **4.Evaluation on nuImages val dataset**
 
-First, change dataset and version in [nuimages.py](https://github.com/TedSongjh/CSE599-fianl-project/blob/main/nuimages.py) to
+First, change dataset and version in [nuimages_loader.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_loader.py) to
 ```
 dataset = 'nuimages_val'
 version = 'v1.0-val'
@@ -92,7 +106,25 @@ Then run eval-only command and set model weights to the last checkpoint (in this
 ./detectron2/tools/train_net.py    --config-file ../configs/NuImages-RCNN-FPN.yaml   --eval-only MODEL.WEIGHTS ~/detectron2/tools/output/model_final.pth
 ```
 
-## Inference
+## Inference tools
+There are three inference tools to visulize result
+**1. Visulize nuImages groud truth**
+
+run [visualize_nuImages.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/visualize_nuImages.py)
+
+**2. Inference on own dataset**
+
+run [nuimages_inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/nuimages_inference.py) to save inference result in folder
+
+**3. Inference on nuImages dataset and compare to ground truth**
+
+run [visual&inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/visual%26inference.py) to save both the groud truth and inference result
+
+
+
+
+
+
 
 
 

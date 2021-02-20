@@ -123,10 +123,34 @@ run [nuimages_inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/
 
 run [visual&inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/blob/main/visual%26inference.py) to save both the groud truth and inference result
 
+## Quantitative Results
+
+Evaluation results for bbox: 
 
 
+Evaluation results for segm: 
+
+Per-category bbox AP: 
 
 
+Per-category segm AP: 
+
+
+Intersection over Union(IoU) Evaluation AP and AR:
+|Evaluation|  IoU   | Range  | MaxDets|Result|
+|:--------:|:------:|:------:|:------:|:------:|
+|Average Precision  (AP)| @IoU=0.50:0.95 | area=   all | maxDets=100 |0.257|
+|Average Precision  (AP) |0.50      | area=   all | maxDets=100 |0.521|
+|Average Precision  (AP) |0.75      | area=   all | maxDets=100 |0.216|
+|Average Precision  (AP) |0.50:0.95 | area= small | maxDets=100 |0.145|
+|Average Precision  (AP) |IoU=0.50:0.95 | area=medium | maxDets=100 |0.405|
+|Average Precision  (AP) |IoU=0.50:0.95 | area= large | maxDets=100 |0.346|
+|Average Recall     (AR) |IoU=0.50:0.95 | area=   all | maxDets=  1 |0.262|
+|Average Recall     (AR) |IoU=0.50:0.95 | area=   all | maxDets= 10 |0.423|
+|Average Recall     (AR) |IoU=0.50:0.95 | area=   all | maxDets=100 |0.437|
+|Average Recall     (AR) |IoU=0.50:0.95 | area= small | maxDets=100 |0.295|
+|Average Recall     (AR) |IoU=0.50:0.95 | area=medium | maxDets=100 |0.615|
+|Average Recall     (AR) |IoU=0.50:0.95 | area= large | maxDets=100 |0.661
 
 
 

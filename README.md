@@ -127,30 +127,53 @@ run [visual&inference.py](https://github.com/TedSongjh/cruw_detectron2_devkit/bl
 
 Evaluation results for bbox: 
 
+|   AP   |  AP50  |  AP75  |  APs   |  APm   |  APl   |
+|:------:|:------:|:------:|:------:|:------:|:------:|
+| 39.500 | 63.135 | 42.315 | 24.586 | 46.119 | 56.982 |
+
 
 Evaluation results for segm: 
 
+|   AP   |  AP50  |  AP75  |  APs   |  APm   |  APl   |
+|:------:|:------:|:------:|:------:|:------:|:------:|
+| 31.848 | 56.872 | 30.915 | 14.058 | 38.287 | 53.346 |
+
+
+
+
 Per-category bbox AP: 
+
+| category         | AP     | category      | AP     | category                 | AP     |
+|:-----------------|:-------|:--------------|:-------|:-------------------------|:-------|
+| human.pedestrian | 34.001 | vehicle.car   | 51.809 | vehicle.bus              | 33.752 |
+| vehicle.truck    | 33.731 | vehicle.cycle | 37.375 | vehicle.cycle.with_rider | 46.333 |
 
 
 Per-category segm AP: 
+
+| category         | AP     | category      | AP     | category                 | AP     |
+|:-----------------|:-------|:--------------|:-------|:-------------------------|:-------|
+| human.pedestrian | 24.440 | vehicle.car   | 43.297 | vehicle.bus              | 30.795 |
+| vehicle.truck    | 28.962 | vehicle.cycle | 22.666 | vehicle.cycle.with_rider | 40.930 |
+
 
 
 Intersection over Union(IoU) Evaluation AP and AR:
 |Evaluation|  IoU   | Range  | MaxDets|Result|
 |:--------:|:------:|:------:|:------:|:------:|
-|Average Precision  (AP)| @IoU=0.50:0.95 | area=   all | maxDets=100 |0.257|
-|Average Precision  (AP) |0.50      | area=   all | maxDets=100 |0.521|
-|Average Precision  (AP) |0.75      | area=   all | maxDets=100 |0.216|
-|Average Precision  (AP) |0.50:0.95 | area= small | maxDets=100 |0.145|
-|Average Precision  (AP) |IoU=0.50:0.95 | area=medium | maxDets=100 |0.405|
-|Average Precision  (AP) |IoU=0.50:0.95 | area= large | maxDets=100 |0.346|
-|Average Recall     (AR) |IoU=0.50:0.95 | area=   all | maxDets=  1 |0.262|
-|Average Recall     (AR) |IoU=0.50:0.95 | area=   all | maxDets= 10 |0.423|
-|Average Recall     (AR) |IoU=0.50:0.95 | area=   all | maxDets=100 |0.437|
-|Average Recall     (AR) |IoU=0.50:0.95 | area= small | maxDets=100 |0.295|
-|Average Recall     (AR) |IoU=0.50:0.95 | area=medium | maxDets=100 |0.615|
-|Average Recall     (AR) |IoU=0.50:0.95 | area= large | maxDets=100 |0.661
+|Average Precision  (AP) | IoU=0.50:0.95 | area=   all | maxDets=100 | 0.318
+|Average Precision  (AP) | IoU=0.50      | area=   all | maxDets=100 | 0.569
+|Average Precision  (AP) | IoU=0.75      | area=   all | maxDets=100 | 0.309
+|Average Precision  (AP) | IoU=0.50:0.95 | area= small | maxDets=100 | 0.141
+|Average Precision  (AP) | IoU=0.50:0.95 | area=medium | maxDets=100 | 0.383
+|Average Precision  (AP) | IoU=0.50:0.95 | area= large | maxDets=100 | 0.533
+|Average Recall     (AR) | IoU=0.50:0.95 | area=   all | maxDets=  1 | 0.274
+|Average Recall     (AR) | IoU=0.50:0.95 | area=   all | maxDets= 10 | 0.398
+|Average Recall     (AR) | IoU=0.50:0.95 | area=   all | maxDets=100 | 0.402
+|Average Recall     (AR) | IoU=0.50:0.95 | area= small | maxDets=100 | 0.222
+|Average Recall     (AR) | IoU=0.50:0.95 | area=medium | maxDets=100 | 0.463
+|Average Recall     (AR) | IoU=0.50:0.95 | area= large | maxDets=100 | 0.628
+
 
 
 
